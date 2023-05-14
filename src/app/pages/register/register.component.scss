@@ -1,0 +1,64 @@
+/* register.component.scss */
+.register-container {
+  background-color: #f1f1f1;
+  max-width: 400px;
+  margin: 80px auto;
+  padding: 40px;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.logo {
+  text-align: center;
+  margin-bottom: 20px;
+  width: 100px;
+  height: 100px;
+}
+
+h1 {
+  text-align: center;
+  color: #333333;
+}
+
+form {
+  margin-top: 30px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+label {
+  display: block;
+  margin-bottom: 8px;
+  color: #666666;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 4px;
+  border: 1px solid #cccccc;
+}
+
+button {
+  width: 100%;
+  background-color: #0077dd;
+  color: #ffffff;
+  border: none;
+  padding: 15px;
+  font-size: 16px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #0055aa;
+}
+
+button:focus {
+  outline: none;
+}

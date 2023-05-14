@@ -1,0 +1,32 @@
+<div class="main">
+  <app-header-questions></app-header-questions>
+
+  <div class="container">
+  <div class="menu">
+    <!-- Menu component with buttons for layout options -->
+    <app-menu-questions (layoutSelected)="changeLayout($event)"></app-menu-questions>
+  </div>
+  <div class="content">
+    <ng-container *ngIf="layout === 'question'">
+    <!-- Render question layout -->
+    <app-layout-questions></app-layout-questions>
+  </ng-container>
+
+    <ng-container *ngIf="layout === 'tags'">
+      <!-- Render tags layout -->
+      <app-layout-tags></app-layout-tags>
+    </ng-container>
+
+    <ng-container *ngIf="layout === 'users'">
+      <!-- Render users layout -->
+      <app-layout-users></app-layout-users>
+    </ng-container>
+
+    <ng-container *ngIf="layout === 'ask'">
+      <!-- Render ask layout -->
+      <app-ask-question></app-ask-question>
+    </ng-container>
+
+  </div>
+  </div>
+</div>

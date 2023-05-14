@@ -1,0 +1,16 @@
+.container {
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.menu {
+  width: 300px;
+  background-color: #f1f1f1;
+  /* Add other styles for the menu */
+}
+
+.content {
+  flex: 1;
+  /* Add other styles for the content area */
+}
