@@ -2,6 +2,10 @@ body {
   font-family: Arial, sans-serif;
   margin: 0;
   padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
 }
 
 .background-container {
@@ -22,17 +26,15 @@ body {
 
 .container {
   position: relative;
-  align-self: center;
   padding: 40px;
   max-width: 600px;
-  margin: 100px auto;
   background-color: rgba(200, 209, 211, 0.9);
   border-radius: 4px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .logo {
-  position: relative;
+  position: absolute;
   top: 20px;
   left: 20px;
   width: 50px;
@@ -41,9 +43,7 @@ body {
 
 .content {
   text-align: center;
-  position: relative;
-  align-content: center;
-
+  margin-top: 50px;
 }
 
 h1 {
@@ -60,6 +60,7 @@ p {
 .buttons {
   display: flex;
   justify-content: center;
+  margin-top: 20px;
 }
 
 .button {

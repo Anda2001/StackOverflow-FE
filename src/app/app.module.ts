@@ -16,7 +16,10 @@ import { UserComponent } from './pages/user/user.component';
 import {FormsModule} from "@angular/forms";
 import { UserHeaderComponent } from './pages/user/user-header/user-header.component';
 import { UserLayoutComponent } from './pages/user/user-layout/user-layout.component';
-import { SpecificQuestionComponent } from './pages/questions/specific-question/specific-question.component';
+import { ViewQuestionComponent } from './pages/specific-question/view-question/view-question.component';
+import { SpecificQuestionComponent } from './pages/specific-question/specific-question.component';
+import { SpecificQuestionHeaderComponent } from './pages/specific-question/specific-question-header/specific-question-header.component';
+import { SpecificQuestionMenuComponent } from './pages/specific-question/specific-question-menu/specific-question-menu.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +37,10 @@ import { SpecificQuestionComponent } from './pages/questions/specific-question/s
     UserComponent,
     UserHeaderComponent,
     UserLayoutComponent,
-    SpecificQuestionComponent
+    ViewQuestionComponent,
+    SpecificQuestionComponent,
+    SpecificQuestionHeaderComponent,
+    SpecificQuestionMenuComponent
   ],
   imports: [
     BrowserModule,

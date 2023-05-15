@@ -62,3 +62,23 @@ button:hover {
 button:focus {
   outline: none;
 }
+
+
+input[type="submit"] {
+  width: 100%;
+  background-color: #0077dd;
+  color: #ffffff;
+  border: none;
+  padding: 15px;
+  font-size: 16px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+input[type="submit"]:hover {
+  background-color: #0055aa;
+}
+
+input[type="submit"]:focus {
+  outline: none;
+}

@@ -43,6 +43,7 @@ button[type="submit"]:hover {
 }
 
 .checkmark {
+  display: none;
   position: absolute;
   top: 50%;
   left: calc(100% + 10px);

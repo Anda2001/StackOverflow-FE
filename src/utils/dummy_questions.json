@@ -1,8 +1,26 @@
 [
   {
-    "title": "How can I optimize my website's performance?",
-    "description": "I'm looking for tips and techniques to improve the performance of my website. It currently loads slowly, and I want to make it faster. Any suggestions?",
-    "tags": ["Performance", "Optimization", "Website"],
+    "id": 1,
+    "title": "How do I implement authentication in my Angular app?",
+    "description": "I'm building an Angular application and I need to implement user authentication. What are the recommended approaches and libraries for handling authentication in Angular?",
+    "tags": ["Angular", "Authentication", "Security"],
+    "answers": [{"user": "user", "content": "You can use the Angular Router to implement authentication in your app."}],
+    "user": "user2"
+  },
+  {
+    "id": 2,
+    "title": "What are the best practices for writing clean and maintainable code?",
+    "description": "I want to improve the quality of my code by following best practices for clean and maintainable code. What are some recommended practices and techniques that I can apply in my projects?",
+    "tags": ["Code Quality", "Best Practices", "Clean Code"],
+    "answers": [],
     "user": "user"
+  },
+  {
+    "id": 3,
+    "title": "How can I handle HTTP requests in React?",
+    "description": "I'm working on a React application and I need to make HTTP requests to retrieve data from a server. What are the common approaches and libraries for handling HTTP requests in React?",
+    "tags": ["React", "HTTP Requests", "API"],
+    "answers": [ {"user": "user3", "content": "You can use the Axios library to make HTTP requests in React."}],
+    "user": "user2"
   }
 ]

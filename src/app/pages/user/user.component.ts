@@ -9,12 +9,12 @@ import {AppComponent} from "../../app.component";
 export class UserComponent{
 
     users = AppComponent.users;
-    current_user = AppComponent.getCurrentUser();
+    current_user = AppComponent.current_user;
 
     constructor() { }
 
     ngOnInit(): void {
       console.log("@@@@@@@@")
-      console.log(AppComponent.getCurrentUser())
+      console.log(AppComponent.current_user)
     }
 }

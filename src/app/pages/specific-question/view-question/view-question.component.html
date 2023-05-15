@@ -1,0 +1,24 @@
+<div class="question-container">
+  <h2 class="question-title">{{ question.title }}</h2>
+  <p class="question-description">{{ question.description }}</p>
+  <p class="question-tags">
+    <strong>Tags:</strong>
+    <span *ngFor="let tag of question.tags">{{ tag }}</span>
+  </p>
+  <p class="question-user"><strong>User:</strong> {{ question.user }}</p>
+  <div class="review-buttons">
+    <button class="like-button">Like</button>
+    <button class="dislike-button">Dislike</button>
+  </div>
+
+  <h2>Responses</h2>
+  <div *ngFor="let response of question.answers" class="response-container">
+    <div class="response-user">{{ response.user }}</div>
+    <div class="response-content">{{ response.content }}</div>
+  </div>
+
+  <form class="answer-form">
+    <textarea id="answer" rows="4" placeholder="Enter your answer"></textarea>
+    <button (click)="submit_answer()" type="submit">Submit Answer</button>
+  </form>
+</div>

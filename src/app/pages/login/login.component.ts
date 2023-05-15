@@ -12,7 +12,7 @@ export class LoginComponent implements OnInit{
   }
   constructor(private router: Router) {}
 
-  //users = AppComponent.users;
+  users = AppComponent.users;
 
   goToQuestions() {
 
@@ -31,13 +31,9 @@ export class LoginComponent implements OnInit{
 
     AppComponent.users.map((user) => {
       if (user.name === enteredUsername && user.password === enteredPassword) {
-            AppComponent.setCurrentUser(user);
-          console.log("Current user:", AppComponent.getCurrentUser())
-              this.router.navigate(['/questions'], {
-                queryParams: {
-                  currentUser: user.name
-                }
-              });
+            AppComponent.current_user.push(user);
+            console.log("Current user:", AppComponent.getCurrentUser())
+            this.router.navigate(['/questions']);
             } else {
               console.log('Invalid username or password');
             }

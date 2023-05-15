@@ -1,0 +1,37 @@
+.header {
+  display: flex;
+  //align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+  background-color: #f1f1f1;
+}
+
+.logo {
+  width: 190px;
+  height: 40px;
+}
+
+.user-button {
+  cursor: pointer;
+  text-decoration: none;
+}
+
+
+
+.user-logo {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  /* Add additional styling as needed */
+}
+
+.logo-button {
+  cursor: pointer;
+  text-decoration: none;
+}
+
+
+
+
+
+// Path: src\app\pages\questions\main-questions\main-questions.component.scss

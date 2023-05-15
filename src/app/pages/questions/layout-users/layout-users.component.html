@@ -1,1 +1,6 @@
-<p>layout-users works!</p>
+<div class="users-container">
+  <h3>Users:</h3>
+  <ul>
+    <li *ngFor="let user of users">{{ user.name }} - {{ user.email }}</li>
+  </ul>
+</div>

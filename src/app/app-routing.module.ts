@@ -6,6 +6,8 @@ import {WelcomeComponent} from "./pages/welcome/welcome.component";
 import {MainQuestionsComponent} from "./pages/questions/main-questions/main-questions.component";
 import {UserComponent} from "./pages/user/user.component";
 import {AskQuestionComponent} from "./pages/questions/ask-question/ask-question.component";
+import {ViewQuestionComponent} from "./pages/specific-question/view-question/view-question.component";
+import {SpecificQuestionComponent} from "./pages/specific-question/specific-question.component";
 
 
 const routes: Routes = [
@@ -14,7 +16,8 @@ const routes: Routes = [
   { path: 'register', component: RegisterComponent },
   {path: 'questions', component: MainQuestionsComponent},
   {path: 'user', component: UserComponent},
-  {path: 'questions/ask', component: AskQuestionComponent}
+  {path: 'questions/ask', component: AskQuestionComponent},
+  {path: 'specific-question/:id', component: SpecificQuestionComponent}
 ];
 
 @NgModule({

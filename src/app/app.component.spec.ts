@@ -26,10 +26,10 @@ describe('AppComponent', () => {
     expect(app.title).toEqual('fe-stackoverflow');
   });
 
-  it('should render title', () => {
+  it('should log the message in the console', () => {
+    spyOn(console, 'log');
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
-    const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('.content span')?.textContent).toContain('fe-stackoverflow app is running!');
+    expect(console.log).toHaveBeenCalledWith('fe-stackoverflow app is running!');
   });
 });

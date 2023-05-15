@@ -1,5 +1,8 @@
-<section class="questions">
-  <!-- Display questions and related content -->
-</section>
-
-
+<div *ngFor="let question of questions" class="question-container">
+  <h2>{{ question.title }}</h2>
+  <p>{{ question.description }}</p>
+  <div class="tags">
+    <span *ngFor="let tag of question.tags" class="tag">{{ tag }}</span>
+  </div>
+  <button (click)="goToSpecificQuestion(question)" class="view-button">View Question</button>
+</div>
