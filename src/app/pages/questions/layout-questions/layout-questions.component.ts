@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {AppComponent} from "../../../app.component";
 import {Router} from "@angular/router";
+import {HttpClient} from "@angular/common/http";
 
 @Component({
   selector: 'app-layout-questions',
@@ -9,9 +10,11 @@ import {Router} from "@angular/router";
 })
 export class LayoutQuestionsComponent implements OnInit{
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private http:HttpClient) {}
 
   questions = AppComponent.questions;
+
+
 
 
 
@@ -21,6 +24,11 @@ export class LayoutQuestionsComponent implements OnInit{
     }
 
   ngOnInit(): void {
+    let response = this.http.get("http://localhost:8080/questions/getAll");
+    response.subscribe((data: any) => {
+      console.log(data);
+      this.questions = data;
+    })
   }
 
 

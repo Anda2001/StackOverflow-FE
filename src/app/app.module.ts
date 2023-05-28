@@ -20,6 +20,7 @@ import { ViewQuestionComponent } from './pages/specific-question/view-question/v
 import { SpecificQuestionComponent } from './pages/specific-question/specific-question.component';
 import { SpecificQuestionHeaderComponent } from './pages/specific-question/specific-question-header/specific-question-header.component';
 import { SpecificQuestionMenuComponent } from './pages/specific-question/specific-question-menu/specific-question-menu.component';
+import {HttpClientModule} from "@angular/common/http";
 
 @NgModule({
   declarations: [
@@ -45,7 +46,8 @@ import { SpecificQuestionMenuComponent } from './pages/specific-question/specifi
   imports: [
     BrowserModule,
     AppRoutingModule,
-    FormsModule
+    FormsModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
