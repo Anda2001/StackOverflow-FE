@@ -7,14 +7,13 @@ import {AppComponent} from "../../app.component";
   styleUrls: ['./user.component.scss']
 })
 export class UserComponent{
-
-    users = AppComponent.users;
-    current_user = AppComponent.current_user;
+  private User: any;
 
     constructor() { }
 
     ngOnInit(): void {
-      console.log("@@@@@@@@")
-      console.log(AppComponent.current_user)
+        console.log(sessionStorage.getItem('user'));
+      this.User
+      let user = JSON.parse(sessionStorage.getItem('user') || '{}');
     }
 }

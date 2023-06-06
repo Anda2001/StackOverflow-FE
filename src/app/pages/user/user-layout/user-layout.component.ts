@@ -16,13 +16,8 @@ export class UserLayoutComponent {
 
 
   ngOnInit(): void {
-    this.router.events.subscribe(event => {
-      if (event instanceof NavigationEnd) {
-        console.log("@@@@@@@@")
-        console.log(AppComponent.current_user.length);
-        this.currentUser = AppComponent.current_user[AppComponent.current_user.length - 1];
-        console.log(this.currentUser);
-      }
-    });
+
+   this.currentUser = JSON.parse(sessionStorage.getItem('user') || '{}');
+    console.log("User...", this.currentUser);
   }
 }

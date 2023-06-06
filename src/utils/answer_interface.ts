@@ -1,7 +1,6 @@
 export interface Answer_interface {
   id: number;
   description: string;
-  user: string;
+  userId: number;
   questionId: number;
-  date: Date;
 }

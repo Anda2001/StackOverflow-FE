@@ -4,6 +4,7 @@ import {Router} from "@angular/router";
 
 import {AppComponent} from "../../app.component";
 import {User_interface} from "../../../utils/user_interface";
+import {HttpClient} from "@angular/common/http";
 
 @Component({
   selector: 'app-register',
@@ -12,12 +13,25 @@ import {User_interface} from "../../../utils/user_interface";
 })
 export class RegisterComponent implements OnInit {
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
+    let response = this.http.get("http://localhost:8080/users/getAll");
+    response.subscribe((data: any) => {
+      console.log(data);
+      this.users = data.map((user: any) => {
+        return {
+          userId: user.userId,
+          name: user.name,
+          email: user.email,
+          password: user.password,
+          role: user.role
+        };
+      });
+    });
   }
 
-  users: User_interface[] = AppComponent.users;
+  users: User_interface[]|any;
 
-  constructor(private router: Router) {
+  constructor(private router: Router, private http: HttpClient) {
   }
 
   goToQuestions() {
@@ -25,13 +39,14 @@ export class RegisterComponent implements OnInit {
 
     // Retrieve the entered values from the form
     const enteredUsername = (<HTMLInputElement>document.getElementById('username')).value;
+    console.log(enteredUsername);
     const enteredPassword = (<HTMLInputElement>document.getElementById('password')).value;
     const enteredEmail = (<HTMLInputElement>document.getElementById('email')).value;
     const reEnteredPassword = (<HTMLInputElement>document.getElementById('repassword')).value;
 
     // Verify the entered username and password
 
-    const existingUser = this.users.find(user => user.name === enteredUsername);
+    const existingUser = this.users.find((user: User_interface) => user.name === enteredUsername);
     if (existingUser) {
       console.log('Username is already taken');
       return;
@@ -48,22 +63,25 @@ export class RegisterComponent implements OnInit {
       return;
     }
 
-    const newUser: User_interface = {
-      name: enteredUsername,
+    const newUser: any= {
+      userId: this.users.length + 1,
+      firstName: enteredUsername,
       password: enteredPassword,
-      email: enteredEmail
+      email: enteredEmail,
+      role: "user" // default role
     };
-    AppComponent.users.map((user) => {
-      console.log(user.name)
-      console.log("$$$$$$$$$$$$")
-    })
-    // Add the new user to the users array
-    this.users.push(newUser);
+    console.log(newUser);
 
-    AppComponent.users.map((user) => {
-      console.log(user.name)
-      console.log("$$$$$$$$$$$$")
-    })
+    if(newUser.firstName === "admin"){
+      newUser.role = "admin";
+    }
+
+
+    // Add the new user to the users table
+    this.http.post("http://localhost:8080/users/create", newUser).subscribe((data: any) => {
+      console.log(data);
+
+    });
   }
 
 

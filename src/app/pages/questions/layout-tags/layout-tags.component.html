@@ -1,0 +1,6 @@
+<div class="tags-window">
+  <h3>Tags</h3>
+  <div class="tag-buttons">
+    <button *ngFor="let tag of tags" class="tag-button" (click)="handleTagClick(tag)">{{ tag.title }}</button>
+  </div>
+</div>

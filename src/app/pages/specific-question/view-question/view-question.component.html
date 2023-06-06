@@ -1,20 +1,31 @@
 <div class="question-container">
-  <h2 class="question-title">{{ question.title }}</h2>
-  <p class="question-description">{{ question.description }}</p>
-  <p class="question-tags">
+  <h2 class="question-title" *ngIf="!isCurrentUserQuestionAuthor()">{{ question?.title }}</h2>
+  <input class="question-title" *ngIf="isCurrentUserQuestionAuthor()" [(ngModel)]="question.title">
+
+  <p class="question-description" *ngIf="!isCurrentUserQuestionAuthor()">{{ question?.text }}</p>
+  <input class="question-description" *ngIf="isCurrentUserQuestionAuthor()" [(ngModel)]="question.text">
+  <p class="question-tags" *ngIf="!isCurrentUserQuestionAuthor()">
     <strong>Tags:</strong>
-    <span *ngFor="let tag of question.tags">{{ tag }}</span>
+    <span *ngFor="let tag of question?.tags">{{ tag }}</span>
   </p>
-  <p class="question-user"><strong>User:</strong> {{ question.user }}</p>
+  <input class="question-tags" *ngIf="isCurrentUserQuestionAuthor()" [(ngModel)]="tagsText">
+  <p class="question-user"><strong>User:</strong> {{ author?.name }}</p>
   <div class="review-buttons">
-    <button class="like-button">Like</button>
-    <button class="dislike-button">Dislike</button>
+    <div *ngIf="isCurrentUserQuestionAuthor()">
+      <button class="simple-button" (click)="editQuestion()">Edit</button>
+      <button class="simple-button" (click)="deleteQuestion()">Delete</button>
+    </div>
+    <div *ngIf="!isCurrentUserQuestionAuthor()">
+      <button class="like-button">Like</button>
+      <button class="dislike-button">Dislike</button>
+    </div>
   </div>
 
+
   <h2>Responses</h2>
-  <div *ngFor="let response of question.answers" class="response-container">
-    <div class="response-user">{{ response.user }}</div>
-    <div class="response-content">{{ response.content }}</div>
+  <div *ngFor="let response of question?.answers" class="response-container">
+    <div class="response-user">{{ response?.user?.firstName}}</div>
+    <div class="response-content">{{ response?.text }}</div>
   </div>
 
   <form class="answer-form">

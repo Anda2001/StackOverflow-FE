@@ -1,6 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from "@angular/router";
 import {AppComponent} from "../../../app.component";
+import {HttpClient} from "@angular/common/http";
+import {NgForm} from "@angular/forms";
 
 @Component({
   selector: 'app-ask-question',
@@ -8,48 +10,56 @@ import {AppComponent} from "../../../app.component";
   styleUrls: ['./ask-question.component.scss']
 })
 export class AskQuestionComponent implements OnInit{
-  questions: any[] = AppComponent.questions;
 
-  submit(formData: any) {
+  question: any;
 
+  submit(questionForm: NgForm) {
 
-    const questionId = this.questions.length + 1;
-    const questionTitle = (<HTMLInputElement>document.getElementById('title')).value;
-    const questionDescription = (<HTMLInputElement>document.getElementById('description')).value;
-    const questionTags = (<HTMLInputElement>document.getElementById('tags')).value.split(",");
-    const answers: never[] = [];
-    const questionAuthor = "user";
+    const questionId = Math.floor(Math.random() * 1000);
+    console.log("Question id:", questionId);
+    const questionTitle = questionForm.value.title;
+    const questionText = questionForm.value.description;
+    const tags = questionForm.value.tags.split(','); // Assuming tags are entered as comma-separated values
 
-    const newQuestion = {
-      id: questionId,
-      title: questionTitle,
-      description: questionDescription,
-      tags: questionTags,
-      answers: answers,
-      user: questionAuthor
+    // Retrieve user from session storage
+    const userJSON = sessionStorage.getItem('user');
+    const user = userJSON ? JSON.parse(userJSON) : null;
+
+    if (!user) {
+      // User is not logged in, handle accordingly
+      console.log('User is not logged in.');
+      return;
     }
 
-    this.questions.push(newQuestion);
-    console.log(this.questions);
+    const newQuestion = {
+      questionId: questionId,
+      title: questionTitle,
+      text: questionText,
+      user: user
+    };
 
-    // Reset the form fields
+    console.log("New question:", newQuestion);
 
-    formData.resetForm();
-
-    const checkmark = document.querySelector('.checkmark');
-    // @ts-ignore
-    checkmark.style.display = 'inline';
-
-    // Hide the checkmark after 2 seconds
-    setTimeout(() => {
-      // @ts-ignore
-      checkmark.style.display = 'none';
-    }, 2000);
-
+    this.http.post("http://localhost:8080/questions/create?tags=" + tags.join(','), newQuestion)
+      .subscribe(
+        (response: any) => {
+          // Handle successful question creation
+          console.log("Question added:", response);
+          // Reset the form fields
+          questionForm.resetForm();
+        },
+        (error: any) => {
+          // Handle error
+          console.error("Error adding question:", error);
+        }
+      );
   }
+
+
   ngOnInit(): void {
+
   }
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private http:HttpClient) {}
 
 }

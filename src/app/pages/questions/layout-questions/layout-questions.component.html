@@ -1,6 +1,7 @@
 <div *ngFor="let question of questions" class="question-container">
   <h2>{{ question.title }}</h2>
-  <p>{{ question.description }}</p>
+  <p>{{ question.text }}</p>
+  <p>{{question.creationDate}}</p>
   <div class="tags">
     <span *ngFor="let tag of question.tags" class="tag">{{ tag }}</span>
   </div>

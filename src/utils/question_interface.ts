@@ -1,8 +1,11 @@
 export interface Question_interface {
-  id: number;
+  questionId: number;
   title: string;
-  description: string;
-  tags: string[];
+  text: string;
   answers: string[];
   user: string;
+  creationDate: string;
+  tags: string[];
+  upvotes: number;
+  downvotes: number;
 }
