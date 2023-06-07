@@ -27,6 +27,8 @@ export class LayoutTagsComponent implements OnInit{
 
 
   handleTagClick(tag: any) {
+    console.log("Tag:", tag.title, tag.tagId)
+    this.router.navigate(['/questions'], { queryParams: { tag: tag.tagId} });
 
 
   }

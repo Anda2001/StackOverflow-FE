@@ -18,6 +18,8 @@ export class ViewQuestionComponent implements OnInit{
   tagsText: string = '';
   private tag: any;
   answers: Answer_interface[]|any;
+  likes: any;
+  answer_likes: any;
 
 
   constructor(private route: ActivatedRoute, private router: Router, private http:HttpClient) {}
@@ -40,60 +42,83 @@ export class ViewQuestionComponent implements OnInit{
       response.subscribe((data: any) => {
         console.log(data);
 
-      //retrieve tags
-      const tagsResponse = this.http.get("http://localhost:8080/tags/getByQuestionId/" + questionId);
-      tagsResponse.subscribe((tagsData: any) => {
-        console.log(tagsData);
+        //retrieve tags
+        const tagsResponse = this.http.get("http://localhost:8080/tags/getByQuestionId/" + questionId);
+        tagsResponse.subscribe((tagsData: any) => {
+          console.log(tagsData);
 
-        const tagsName = tagsData.map((tag: any) => tag.title);
+          const tagsName = tagsData.map((tag: any) => tag.title);
 
-        for (this.tag of tagsName) {
-          this.tagsText = this.tagsText + this.tag + ',';
-        }
-
-        const answersResponse = this.http.get("http://localhost:8080/answers/getByQuestion/" + questionId);
-        answersResponse.subscribe((answersData: any) => {
-          console.log(answersData);
-
-          this.answers = answersData;
-
-          for (let answer of this.answers) {
-            console.log("ANSWER", answer);
-            console.log("ANSWER USER", answer.user);
-            console.log("ANSWER USER Name", answer.user.firstName);
+          for (this.tag of tagsName) {
+            this.tagsText = this.tagsText + this.tag + ',';
           }
 
+          const answersResponse = this.http.get("http://localhost:8080/answers/getByQuestion/" + questionId);
+          answersResponse.subscribe((answersData: any) => {
+            console.log(answersData);
 
-          this.question = {
-            questionId: data.questionId,
-            title: data.title,
-            text: data.text,
-            answers: this.answers,
-            user: data.user,
-            creationDate: data.creationDate,
-            tags: tagsName
-          };
-          console.log("ANDUTA", this.question);
+            this.answers = answersData;
 
-          this.author = {
-            userId: data.user.userId,
-            name: data.user.firstName,
-            email: data.user.email,
-            password: data.user.password,
-            role: data.user.role
-          }
+            for (let answer of this.answers) {
+              this.http.get("http://localhost:8080/vote/getVoteCountByAnswerId/"+answer.answerId)
+                .subscribe((data: any) => {
+                  console.log("hey", data);
+                  answer.likes = data;
 
-          console.log("Author", this.author);
+                });
+            }
+
+            this.getLikes(data.questionId);
+
+            this.question = {
+              questionId: data.questionId,
+              title: data.title,
+              text: data.text,
+              answers: this.answers,
+              user: data.user,
+              creationDate: data.creationDate,
+              tags: tagsName
+            };
+            console.log("ANDUTA", this.question);
+
+            this.author = {
+              userId: data.user.userId,
+              name: data.user.firstName,
+              email: data.user.email,
+              password: data.user.password,
+              role: data.user.role
+            }
+
+            console.log("Author", this.author);
 
 
-          // If the question is not found, navigate back to the questions page
-          if (!this.question) {
-            this.router.navigate(['/questions']);
-          }
+            // If the question is not found, navigate back to the questions page
+            if (!this.question) {
+              this.router.navigate(['/questions']);
+            }
+          });
         });
       });
     });
-  });
+  }
+
+  getLikes(questionId: any){
+    this.http.get("http://localhost:8080/vote/getVoteCountByQuestionId/"+questionId)
+      .subscribe((data: any) => {
+        console.log("hey", data);
+
+        this.likes = data;
+
+      });
+  }
+
+  getAnswerLikes(answerId: any){
+    this.http.get("http://localhost:8080/vote/getVoteCountByAnswerId/"+answerId)
+      .subscribe((data: any) => {
+        console.log("hey", data);
+
+      });
+
   }
 
   isCurrentUserQuestionAuthor(): boolean {
@@ -143,12 +168,12 @@ export class ViewQuestionComponent implements OnInit{
 
 
   submit_answer() {
-      const answer = (<HTMLInputElement>document.getElementById('answer')).value;
-      console.log(answer);
-      const userJSON = sessionStorage.getItem('user');//AppComponent.getCurrentUser().name
+    const answer = (<HTMLInputElement>document.getElementById('answer')).value;
+    console.log(answer);
+    const userJSON = sessionStorage.getItem('user');//AppComponent.getCurrentUser().name
 
-      const user = userJSON ? JSON.parse(userJSON) : null;
-      console.log("USER: ", user);
+    const user = userJSON ? JSON.parse(userJSON) : null;
+    console.log("USER: ", user);
     const userAnswer = {
       answerId: Math.floor(Math.random() * 1000),
       text: answer,
@@ -163,6 +188,89 @@ export class ViewQuestionComponent implements OnInit{
           console.log("Answer created:", response);
           // Reset the form fields
           this.router.navigate(['/specific-question/'+this.question.questionId]);
+        }
+      );
+  }
+
+  isCurrentUserAdmin() {
+    const userJSON = sessionStorage.getItem('user');
+    const user = userJSON ? JSON.parse(userJSON) : null;
+    return user && user.name === "admin";
+  }
+
+  voteQuestion(b: boolean) {
+    const userJSON = sessionStorage.getItem('user');
+    const user = userJSON ? JSON.parse(userJSON) : null;
+    const vote = {
+      voteId: Math.floor(Math.random() * 1000),
+      user: user,
+      question: this.question,
+      voteType: b
+    }
+    console.log(vote);
+    this.http.post("http://localhost:8080/vote/create", vote)
+      .subscribe(
+        (response: any) => {
+          // Handle successful question creation
+          console.log("Vote created:", response);
+          // Reset the form fields
+          this.router.navigate(['/specific-question/'+this.question.questionId]);
+        }
+      );
+  }
+
+  isCurrentUserAnswerAuthor(user: any) {
+    const userJSON = sessionStorage.getItem('user');
+    const user1 = userJSON ? JSON.parse(userJSON) : null;
+    return user1 && user && user1.userId === user.userId;
+  }
+
+  editAnswer(response: any) {
+    this.http.put("http://localhost:8080/answers/update", response)
+      .subscribe(
+        (response: any) => {
+          // Handle successful question creation
+          console.log("Answer edited:", response);
+          // Reset the form fields
+          this.router.navigate(['/specific-question/'+this.question.questionId]);
+
+        }
+      );
+
+  }
+
+  voteAnswer(b: boolean, response: any) {
+    const userJSON = sessionStorage.getItem('user');
+    const user = userJSON ? JSON.parse(userJSON) : null;
+    const vote = {
+      voteId: Math.floor(Math.random() * 1000),
+      user: user,
+      answer: response,
+      voteType: b
+    }
+    console.log(vote);
+    this.http.post("http://localhost:8080/vote/create", vote)
+      .subscribe(
+        (response: any) => {
+          // Handle successful question creation
+          console.log("Vote created:", response);
+          // Reset the form fields
+          this.router.navigate(['/specific-question/'+this.question.questionId]);
+        }
+      );
+
+  }
+
+  deleteAnswer(response: any) {
+    console.log("Answer to be deleted:", response.answerId);
+    this.http.delete("http://localhost:8080/answers/delete/"+response.answerId)
+      .subscribe(
+        (response: any) => {
+          // Handle successful question creation
+          console.log("Answer deleted:", response);
+          // Reset the form fields
+          this.router.navigate(['/specific-question/'+this.question.questionId]);
+
         }
       );
   }

@@ -1,6 +1,9 @@
-<div class="users-container">
-  <h3>Users:</h3>
-  <ul>
-    <li *ngFor="let user of users">{{ user.name }} - {{ user.email }}</li>
-  </ul>
+<div class="users-window">
+  <h3>Users</h3>
+  <div class="user-buttons">
+    <div *ngFor="let user of users" class="user-button-container">
+      <button class="user-button" (click)="handleUserClick(user)">{{ user.firstName }}</button>
+      <button class="ban-button" *ngIf="isCurrentUserAdmin()" (click)="handleBanClick(user)">{{ 'Ban ' + user.firstName }}</button>
+    </div>
+  </div>
 </div>

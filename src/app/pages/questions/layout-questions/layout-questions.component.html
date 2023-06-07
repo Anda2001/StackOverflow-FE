@@ -1,3 +1,9 @@
+<!-- Add the text input field and filter button with styling -->
+<div class="filter-container">
+  <input type="text" [(ngModel)]="filterText" placeholder="Enter text to filter" class="filter-input">
+  <button (click)="filterQuestions()" class="filter-button">Filter</button>
+</div>
+
 <div *ngFor="let question of questions" class="question-container">
   <h2>{{ question.title }}</h2>
   <p>{{ question.text }}</p>

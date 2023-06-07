@@ -1,0 +1,8 @@
+export interface Vote_interface {
+  id: number;
+  userId: number;
+  questionId: number;
+  answerId: number;
+  type: boolean;
+
+}
