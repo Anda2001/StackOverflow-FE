@@ -5,6 +5,9 @@ import {HttpClient} from "@angular/common/http";
 import {Question_interface} from "../../../../utils/question_interface";
 import {User_interface} from "../../../../utils/user_interface";
 import {Answer_interface} from "../../../../utils/answer_interface";
+import {forkJoin, Observable} from "rxjs";
+
+
 
 @Component({
   selector: 'app-view-question',
@@ -19,7 +22,8 @@ export class ViewQuestionComponent implements OnInit{
   private tag: any;
   answers: Answer_interface[]|any;
   likes: any;
-  answer_likes: any;
+  users: User_interface[]|any[]= [];
+  private user: any;
 
 
   constructor(private route: ActivatedRoute, private router: Router, private http:HttpClient) {}
@@ -58,6 +62,12 @@ export class ViewQuestionComponent implements OnInit{
             console.log(answersData);
 
             this.answers = answersData;
+            this.getUserScores();
+
+            console.log("ANSWERS", this.answers);
+
+
+            console.log("ANSWERS sort", this.answers);
 
             for (let answer of this.answers) {
               this.http.get("http://localhost:8080/vote/getVoteCountByAnswerId/"+answer.answerId)
@@ -66,7 +76,21 @@ export class ViewQuestionComponent implements OnInit{
                   answer.likes = data;
 
                 });
+              this.answers.sort((a: any, b: any) => {
+                  if(b.likes > a.likes) {
+                    return -1;
+                  }
+                  if(b.likes < a.likes) {
+                    return 1;
+                  }
+                  return 0;
+                }
+              );
             }
+
+
+
+
 
             this.getLikes(data.questionId);
 
@@ -88,6 +112,8 @@ export class ViewQuestionComponent implements OnInit{
               password: data.user.password,
               role: data.user.role
             }
+
+
 
             console.log("Author", this.author);
 
@@ -273,5 +299,39 @@ export class ViewQuestionComponent implements OnInit{
 
         }
       );
+  }
+
+
+  private getUserScores() {
+    //get all users
+    this.http.get("http://localhost:8080/users/getAll")
+      .subscribe((data: any) => {
+        console.log("hey", data);
+        this.users = data;
+
+        //for each user make a new parameter score
+        for (let user of this.users) {
+          user.score = 0;
+          this.http.get("http://localhost:8080/vote/getScore/"+user.userId)
+            .subscribe((data: any) => {
+              console.log("hey", data);
+              user.score = data;
+
+            }
+            );
+        }
+      }
+      );
+      console.log(this.users);
+
+  }
+
+  updateScore(user: any):number{
+    for( let u of this.users) {
+      if(u.userId === user.userId) {
+        return u.score;
+      }
+    }
+    return 0;
   }
 }

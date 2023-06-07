@@ -3,6 +3,7 @@ import {Router} from "@angular/router";
 import {AppComponent} from "../../app.component";
 import {User_interface} from "../../../utils/user_interface";
 import {HttpClient} from "@angular/common/http";
+//import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Component({
   selector: 'login',
@@ -22,7 +23,8 @@ export class LoginComponent implements OnInit{
           name: user.firstName,
           email: user.email,
           password: user.password,
-          role: user.role
+          role: user.role,
+          banned : user.banned
         };
       });
     });
@@ -38,19 +40,30 @@ export class LoginComponent implements OnInit{
     const enteredUsername = (<HTMLInputElement>document.getElementById('username')).value;
     const enteredPassword = (<HTMLInputElement>document.getElementById('password')).value;
 
-    const matchedUser = this.users.find((user: User_interface) => {
+    const matchedUser = this.users.find((user: User_interface | any) => {
       return user.name === enteredUsername && user.password === enteredPassword;
     });
 
-    if (matchedUser) {
-      // Store the matched user in session storage
-      sessionStorage.setItem('user', JSON.stringify(matchedUser));
-      console.log("Current user:", matchedUser);
-      this.router.navigate(['/questions']);
-    } else {
-      console.log('Invalid username or password');
+    if (matchedUser){
+      if( matchedUser.banned !== true) {
+        // Store the matched user in session storage
+        console.log("Current user:", matchedUser.banned);
+        sessionStorage.setItem('user', JSON.stringify(matchedUser));
+        console.log("Current user:", matchedUser);
+        this.router.navigate(['/questions']);
+      } else {
+        this.showErrorNotification("You are banned");
+      }
+    }else{
+      this.showErrorNotification("Invalid username or password");
     }
   }
+
+  private showErrorNotification(message: string) {
+    //this.snackBar.showNotification(message, "danger");
+    console.log(message);
+  }
+
   }
 
 

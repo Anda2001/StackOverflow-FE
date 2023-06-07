@@ -4,12 +4,14 @@
   <button (click)="filterQuestions()" class="filter-button">Filter</button>
 </div>
 
-<div *ngFor="let question of questions" class="question-container">
-  <h2>{{ question.title }}</h2>
-  <p>{{ question.text }}</p>
-  <p>{{question.creationDate}}</p>
-  <div class="tags">
-    <span *ngFor="let tag of question.tags" class="tag">{{ tag }}</span>
+<div class="wrapper">
+  <div *ngFor="let question of questions" class="question-container">
+    <h2>{{ question.title }}</h2>
+    <p>{{ question.text }}</p>
+    <p>{{question.creationDate}}</p>
+    <div class="tags">
+      <span *ngFor="let tag of question.tags" class="tag">{{ tag }}</span>
+    </div>
+    <button (click)="goToSpecificQuestion(question)" class="view-button">View Question</button>
   </div>
-  <button (click)="goToSpecificQuestion(question)" class="view-button">View Question</button>
 </div>

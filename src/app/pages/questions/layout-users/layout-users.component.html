@@ -3,7 +3,8 @@
   <div class="user-buttons">
     <div *ngFor="let user of users" class="user-button-container">
       <button class="user-button" (click)="handleUserClick(user)">{{ user.firstName }}</button>
-      <button class="ban-button" *ngIf="isCurrentUserAdmin()" (click)="handleBanClick(user)">{{ 'Ban ' + user.firstName }}</button>
+      <button style="background-color: #8ed291 " class="ban-button" *ngIf="isCurrentUserAdmin() && isUserBanned(user)" (click)="handleBanClick(user)">{{ 'UnBan ' + user.firstName }}</button>
+      <button class="ban-button" *ngIf="isCurrentUserAdmin() && !isUserBanned(user)" (click)="handleBanClick(user)">{{ 'Ban ' + user.firstName }}</button>
     </div>
   </div>
 </div>

@@ -1,5 +1,10 @@
 .container {
-  overflow: auto;
+    overflow: auto;
+   }
+
+.wrapper{
+  max-height: 600px; /* Set a maximum height for the container */
+  overflow-y: auto; /* Enable vertical scrolling */
 }
 
 .question-container {

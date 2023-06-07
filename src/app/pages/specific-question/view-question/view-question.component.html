@@ -9,7 +9,7 @@
     <span *ngFor="let tag of question?.tags">{{ tag }}</span>
   </p>
   <input class="question-tags" *ngIf="isCurrentUserQuestionAuthor() || isCurrentUserAdmin()" [(ngModel)]="tagsText">
-  <p class="question-user"><strong>User:</strong> {{ author?.name }}</p>
+  <p class="question-user"><strong>User:</strong> {{ author?.name }} -->  User score: {{updateScore(author)}}</p>
   <div class="review-buttons">
     <div *ngIf="isCurrentUserQuestionAuthor() || isCurrentUserAdmin()">
       <button class="simple-button" (click)="editQuestion()">Edit</button>
@@ -30,7 +30,7 @@
   </form>
   <h2>Responses</h2>
   <div *ngFor="let response of question?.answers" class="response-container">
-    <div class="response-user">{{ response?.user?.firstName}}</div>
+    <div class="response-user">{{ response?.user?.firstName}}  --> User score: {{updateScore(response?.user)}}</div>
     <div *ngIf="!isCurrentUserAnswerAuthor(response?.user)&& !isCurrentUserAdmin()">
       <div class="response-content">{{ response?.text }}</div>
     </div>

@@ -10,10 +10,11 @@ import {User_interface} from "../../../../utils/user_interface";
   styleUrls: ['./layout-users.component.scss']
 })
 export class LayoutUsersComponent {
-  users: User_interface[]|any;
+  users: User_interface[] | any;
   currentUser: any;
 
-  constructor(private route: ActivatedRoute, private router: Router, private http:HttpClient) {}
+  constructor(private route: ActivatedRoute, private router: Router, private http: HttpClient) {
+  }
 
   ngOnInit(): void {
     this.users = [];
@@ -29,7 +30,7 @@ export class LayoutUsersComponent {
 
   handleUserClick(user: any) {
     console.log("User:", user.title, user.userId)
-    this.router.navigate(['/questions'], { queryParams: { user: user.userId} });
+    this.router.navigate(['/questions'], {queryParams: {user: user.userId}});
 
   }
 
@@ -40,8 +41,29 @@ export class LayoutUsersComponent {
   }
 
 
-
   handleBanClick(user: any) {
+    console.log("User:", user.title, user.userId)
+    this.http.put("http://localhost:8080/users/ban/" + user.userId, null)
+      .subscribe((data: any) => {
+          console.log(data);
+          ;
 
+        }
+      );
+    //send msg
+    if (user.banned === false) {
+      this.http.get("http://localhost:8080/sms/sendSMS")
+        .subscribe((data: any) => {
+            console.log(data);
+
+          }
+        );
+
+
+    }
+  }
+
+  isUserBanned(user: any): boolean {
+    return user.banned;
   }
 }
